@@ -26,6 +26,16 @@ const search = document.getElementById("search"),
     "December",
   ];
 
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      var lat = position.coords.latitude;
+      var lon = position.coords.longitude;
+      display(`${lat} ${lon}`)
+    });
+  } else {
+    alert("Geolocation is not supported by your browser");
+  }
+
 search.addEventListener('input', () => {
   if (/\w{3,}/.test(search.value)) {
     let weatherSearch = [];
@@ -113,5 +123,3 @@ async function display(url) {
     weather.appendChild(forecastDiv); 
   }
 }
-
-display('cairo')
