@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .weatherDiv {
+    @apply lg:w-1/4 w-full my-3 lg:my-0 py-3 px-2 bg-black bg-opacity-50 text-white rounded-xl
+  }
+
+  .inputClasses {
+    @apply w-full h-full bg-transparent font-sans font-normal outline outline-0 focus:outline-0 disabled:border-0 transition-all placeholder-shown:border border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] focus:border-gray-900
+  }
+
+  .labelClasses {
+    @apply flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate leading-tight transition-all -top-1.5 text-[11px] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 before:rounded-tl-md before:border-t before:border-l before:pointer-events-none before:transition-all after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 after:rounded-tr-md after:border-t after:pointer-events-none after:transition-all after:border-r text-gray-500
+  }
+}
