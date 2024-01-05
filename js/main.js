@@ -1,6 +1,7 @@
-'use strict'
+"use strict"
 
 const search = document.getElementById("search"),
+  bgImg = document.getElementById("bgImg"),
   weather = document.getElementById("weather"),
   days = [
     "Sunday",
@@ -26,17 +27,17 @@ const search = document.getElementById("search"),
     "December",
   ];
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      var lat = position.coords.latitude;
-      var lon = position.coords.longitude;
-      display(`${lat} ${lon}`)
-    });
-  } else {
-    alert("Geolocation is not supported by your browser");
-  }
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function (position) {
+    let lat = position.coords.latitude;
+    let lon = position.coords.longitude;
+    display(`${lat} ${lon}`);
+  });
+} else {
+  alert("Geolocation is not supported by your browser");
+}
 
-search.addEventListener('input', () => {
+search.addEventListener("input", () => {
   if (/\w{3,}/.test(search.value)) {
     let weatherSearch = [];
     let myHttp = new XMLHttpRequest();
@@ -48,24 +49,51 @@ search.addEventListener('input', () => {
     myHttp.addEventListener("readystatechange", () => {
       if (myHttp.readyState == 4) {
         weatherSearch = JSON.parse(myHttp.response);
-        if (weatherSearch.length>0) {
+        if (weatherSearch.length > 0) {
           display(weatherSearch[0].url);
         }
       }
     });
   }
-})
+});
 
 async function display(url) {
   let response = await fetch(
     `https://api.weatherapi.com/v1/forecast.json?key=fad1cc29dd84409f9ee171915240101&q=${url}&days=3`
   );
-  let weatherCity = await response.json()
+  let weatherCity = await response.json();
   const pathToDay = weatherCity.forecast.forecastday[0];
   const dateToDay = new Date(pathToDay.date);
   const dayOfMonth = dateToDay.getDate();
   const monthName = months[dateToDay.getMonth()];
   const toDay = days[dateToDay.getDay()];
+  if (weatherCity.current.temp_c < 10) {
+    bgImg.classList.add("bg-ice");
+    bgImg.classList.remove("bg-cloudy");
+    bgImg.classList.remove("bg-rain");
+    bgImg.classList.remove("bg-sunny");
+  } else if (
+    10 <= weatherCity.current.temp_c &&
+    weatherCity.current.temp_c < 20
+  ) {
+    bgImg.classList.remove("bg-ice");
+    bgImg.classList.remove("bg-cloudy");
+    bgImg.classList.add("bg-rain");
+    bgImg.classList.remove("bg-sunny");
+  } else if (
+    20 <= weatherCity.current.temp_c &&
+    weatherCity.current.temp_c < 30
+  ) {
+    bgImg.classList.remove("bg-ice");
+    bgImg.classList.add("bg-cloudy");
+    bgImg.classList.remove("bg-rain");
+    bgImg.classList.remove("bg-sunny");
+  } else if (weatherCity.current.temp_c >= 30) {
+    bgImg.classList.remove("bg-ice");
+    bgImg.classList.remove("bg-cloudy");
+    bgImg.classList.remove("bg-rain");
+    bgImg.classList.add("bg-sunny");
+  }
   weather.innerHTML = `
   <div id="today" class="weatherDiv">
     <div class="flex justify-between">
@@ -102,7 +130,7 @@ async function display(url) {
   
   `;
   for (let i = 0; i < weatherCity.forecast.forecastday.length; i++) {
-    const path = weatherCity.forecast.forecastday[i+1];
+    const path = weatherCity.forecast.forecastday[i + 1];
     const forecastDiv = document.createElement("div");
     const date = new Date(path.date);
     const day = days[date.getDay()];
@@ -120,6 +148,6 @@ async function display(url) {
     <small>${path.day.mintemp_c}<sup>o</sup>C</small>
     <p class="text-blue-700 my-6">${path.day.condition.text}</p>
   `;
-    weather.appendChild(forecastDiv); 
+    weather.appendChild(forecastDiv);
   }
 }

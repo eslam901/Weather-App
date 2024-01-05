@@ -1914,8 +1914,20 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-hero {
-  background-image: url('../images/JmH9VgM.jpg');
+.bg-ice {
+  background-image: url('../images/ice.jpg');
+}
+
+.bg-cloudy {
+  background-image: url('../images/cloudy.jpg');
+}
+
+.bg-rain {
+  background-image: url('../images/rain.jpg');
+}
+
+.bg-sunny {
+  background-image: url('../images/sunny.jpg');
 }
 
 .decoration-slice {
