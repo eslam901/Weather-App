@@ -70,7 +70,7 @@ async function display(url) {
           <div id="temp" class="flex justify-between px-4 items-center">
             <h3 class="text-7xl font-bold">${weatherCity.current.temp_c}<sup>o</sup>C</h3>
             <picture class="w-2/6">
-              <img src="http:${weatherCity.current.condition.icon}">
+              <img src="https:${weatherCity.current.condition.icon}">
             </picture>
           </div>
           <p class="text-blue-700 my-6">${weatherCity.current.condition.text}</p>
